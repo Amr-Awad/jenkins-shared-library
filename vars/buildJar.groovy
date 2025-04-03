@@ -26,7 +26,6 @@ def call(Map params = [:]) {
 
                         return true
                     } catch (Exception e) {
-                        sh "kill ${pid} || true"
                         return false
                     }
                 }
@@ -38,6 +37,7 @@ def call(Map params = [:]) {
             sh "kill ${pid} || true"
         } catch (Exception e) {
             echo "An error occurred: ${e.message}"
+            sh "pkill -f 'java -jar' || true"
             throw e
         } 
     }
