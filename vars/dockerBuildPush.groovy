@@ -6,7 +6,7 @@ def call(Map params = [:]) {
         def hostPort = params.get('hostPort', 8081)
         def tagVersion = "jenkins_${BUILD_NUMBER}"
 
-        docker.withRegistry(registryUrl, env.DOCKERHUB_CREDENTIALS) {
+        docker.withRegistry(env.DOCKERHUB_CREDENTIALS) {
             def image
             try {
                 image = docker.build("${env.DOCKER_IMAGE}:${tagVersion}", ".")
