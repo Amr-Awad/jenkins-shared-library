@@ -25,8 +25,16 @@ def call(Map params = [:]) {
                             return status == 'running'
                         }
                     }
-                    
-                    sh "curl --fail http://localhost:${hostPort}"
+                    timeout(time: 30, unit: 'SECONDS') {
+                        waitUntil {
+                            try {
+                                sh "curl --fail http://localhost:${hostPort}"
+                                return true
+                            } catch (Exception e) {
+                                return false
+                            }
+                        }
+                    }
                 } catch (e) {
                     error "Container validation failed: ${e.message}"
                 }
