@@ -34,10 +34,10 @@ def call(Map params = [:]) {
             echo "Application is running successfully."
 
             echo "Terminating java process"
-            sh "pkill -f 'java -jar' || true"
+            sh 'sh -c "pkill -f \'java -jar\' || true"'
         } catch (Exception e) {
             echo "An error occurred: ${e.message}"
-            sh "pkill -f 'java -jar' || true"
+            sh 'sh -c "pkill -f \'java -jar\' || true"'
             throw e
         } 
     }
