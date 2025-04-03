@@ -2,6 +2,7 @@ def call() {
     script {
         try {
             echo 'Executing unit tests using Gradle...'
+            sh 'chmod +x ./gradlew'
             sh './gradlew test'
             echo 'Unit tests executed successfully.'
 
