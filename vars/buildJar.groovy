@@ -23,23 +23,22 @@ def call(Map params = [:]) {
                 waitUntil {
                     try {
                         sh "curl --fail http://localhost:${appPort}"
+
                         return true
                     } catch (Exception e) {
+                        sh "kill ${pid} || true"
                         return false
                     }
                 }
             }
 
             echo "Application is running successfully."
+
+            echo "Terminating process with PID: ${pid}"
+            sh "kill ${pid} || true"
         } catch (Exception e) {
             echo "An error occurred: ${e.message}"
             throw e
-        } finally {
-            echo "Cleaning up..."
-            if (pid) {
-                echo "Terminating process with PID: ${pid}"
-                sh "kill ${pid} || true"
-            }
-        }
+        } 
     }
 }
