@@ -34,14 +34,10 @@ def call(Map params = [:]) {
             echo "Application is running successfully."
 
             echo "Terminating java process"
-            writeFile file: 'terminate_java.sh', text: '#!/bin/bash\npkill -f "java -jar" || true'
-            sh 'chmod +x terminate_java.sh'
-            sh './terminate_java.sh'
+            sh "pkill -f 'java -jar build/libs/demo-0.0.1-SNAPSHOT.jar' || true"
         } catch (Exception e) {
             echo "An error occurred: ${e.message}"
-            writeFile file: 'terminate_java.sh', text: '#!/bin/bash\npkill -f "java -jar" || true'
-            sh 'chmod +x terminate_java.sh'
-            sh './terminate_java.sh'
+            sh "pkill -f 'java -jar build/libs/demo-0.0.1-SNAPSHOT.jar' || true"
             throw e
         } 
     }
