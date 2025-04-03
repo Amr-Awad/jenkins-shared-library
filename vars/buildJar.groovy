@@ -6,6 +6,8 @@ def call(Map params = [:]) {
             echo "Starting build process..."
             sh './gradlew clean build'
 
+            sh 'pwd'
+           
             if (!fileExists(env.JAR_FILE)) {
                 error "JAR file not found: ${env.JAR_FILE}"
             }
