@@ -16,7 +16,7 @@ def call(Map params = [:]) {
             }
 
             echo "Starting the JAR file: ${env.JAR_FILE}"
-            def pid = sh(script: "java -jar ${env.JAR_FILE} & echo \$!", returnStdout: true).trim()
+            sh "java -jar ${env.JAR_FILE} & echo \$!"
 
             echo "Waiting for the application to start..."
             timeout(time: 15, unit: 'SECONDS') {
@@ -33,8 +33,8 @@ def call(Map params = [:]) {
 
             echo "Application is running successfully."
 
-            echo "Terminating process with PID: ${pid}"
-            sh "kill ${pid} || true"
+            echo "Terminating java process"
+            sh "pkill -f 'java -jar' || true"
         } catch (Exception e) {
             echo "An error occurred: ${e.message}"
             sh "pkill -f 'java -jar' || true"
