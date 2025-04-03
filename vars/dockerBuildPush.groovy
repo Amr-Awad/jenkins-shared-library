@@ -3,7 +3,7 @@ def call(Map params = [:]) {
     script {
         def registryUrl = params.get('registryUrl', 'https://registry.hub.docker.com')
         def containerPort = params.get('containerPort', 8081)
-        def hostPort = params.get('hostPort', 8081)
+        def hostPort = params.get('hostPort', 8082)
         def tagVersion = "jenkins_${BUILD_NUMBER}"
 
         docker.withRegistry(env.DOCKERHUB_CREDENTIALS) {
