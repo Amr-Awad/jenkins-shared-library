@@ -7,6 +7,9 @@ def call(Map params = [:]) {
             sh './gradlew clean build'
 
             sh 'pwd'
+            sh 'ls -lah build/libs/'  // To list the files and ensure the jar is there
+            sh 'ls -lah build/libs/*.jar'  // To list the files and ensure the jar is there
+
            
             if (!fileExists(env.JAR_FILE)) {
                 error "JAR file not found: ${env.JAR_FILE}"
