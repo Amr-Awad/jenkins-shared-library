@@ -40,7 +40,11 @@ def call(Map params = [:]) {
                 }
 
                 // Push the image after validation
-                image.push()
+                try{
+                    sh "docker push ${env.DOCKER_IMAGE}:${tagVersion}"
+                } catch (e) {
+                    error "Docker push failed: ${e.message}"
+                }
             } catch (e) {
                 error "Docker build, run, or push failed: ${e.message}"
             }
