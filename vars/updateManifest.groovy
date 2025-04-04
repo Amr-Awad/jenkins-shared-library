@@ -1,5 +1,6 @@
 def call() {
     script {
+        def DEPLOYMENT_PATH = "base/deployment.yaml"
         dir('manifests') {
             try {
                 git(
@@ -10,11 +11,11 @@ def call() {
 
                 sh """
                 # Update image tag with proper YAML indentation
-                sed -i "s|^\\([[:space:]]*image: \\)amrawad12/my-springboot-app:.*|\\1${env.DOCKER_IMAGE}:jenkins_${BUILD_NUMBER}|g" base/deployment.yaml
+                sed -i "s|^\\([[:space:]]*image: \\)amrawad12/my-springboot-app:.*|\\1${env.DOCKER_IMAGE}:jenkins_${BUILD_NUMBER}|g" ${DEPLOYMENT_PATH}
 
                 # Verify changes
-                echo "Updated deployment.yaml:"
-                grep "image:" deployment.yaml
+                echo "Updated ${DEPLOYMENT_PATH}:"
+                grep "image:" ${DEPLOYMENT_PATH}
 
                 # Commit and push
                 git config user.email "jenkins@example.com"
@@ -25,9 +26,9 @@ def call() {
 
                 # Display current deployment.yaml and verify image tag
                 echo "Current deployment.yaml:"
-                cat deployment.yaml
+                cat ${DEPLOYMENT_PATH}
                 echo "\nImage tag verification:"
-                grep "image:" deployment.yaml | grep "jenkins_${BUILD_NUMBER}"
+                grep "image:" ${DEPLOYMENT_PATH} | grep "jenkins_${BUILD_NUMBER}"
             """
         } catch (Exception e) {
                 error "Failed to update manifest: ${e.message}"
